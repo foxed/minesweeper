@@ -78,9 +78,7 @@ class Board
     end
   end
 
-
   def cascade(i, j)
-    puts "in cascade"
     deltas = [[-1,-1],  [0,-1], [1,-1],
               [-1, 0],  [0, 0], [1, 0],
               [-1, 1],  [0, 1], [1, 1]]
@@ -88,6 +86,9 @@ class Board
       row = i + delta[0]
       col = j + delta[1]
       if (row > self.width - 1 || col > self.height - 1 || row == -1 || col == -1)
+        next
+      end
+      if self.columns[row][col].checked 
         next
       end
       self.columns[row][col].checked = true
@@ -98,14 +99,6 @@ class Board
       end
     end
 
-#      if self.columns[row][col].surrounding_bombs > 0
-#        self.columns[row][col].checked = true
-#        break 
-#      else
-#          self.cascade(row, col)
-#      end
-#    end
-#    return
   end  
 end
 
@@ -125,10 +118,6 @@ class Square
     @checked = true 
   end
 end
-
-#FIXME add board class
-#code out neighbors more
-
 
 
 
@@ -166,6 +155,7 @@ def game_loop(board)
        puts "YOU GOT BLOWN UP ! WAHOOO"
        game_over = true
      end     
+#   FIXME needs better validation
 #   rescue IndexError, NoMethodError
 #     bad_coords_error
 #   end
